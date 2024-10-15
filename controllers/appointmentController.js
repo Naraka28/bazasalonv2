@@ -5,7 +5,7 @@ const Appointment = require('../models/appointmentModel');
 const getAppointments = async (req, res) => {
   try {
     const Appointments = await Appointment.getAllAppointments();
-    res.status(200).json(Appointments);
+    res.status(200).json({appointments:Appointments});
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener los Citas', error: error.message });
   }
