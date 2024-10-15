@@ -29,9 +29,9 @@ const getEmployee = async (req, res) => {
 
 // Crear un nuevo empleado
 const createEmployee = async (req, res) => {
-  const { name, email } = req.body;
+  const {employee } = req.body;
   try {
-    const newEmployee = await Employee.createEmployee({ name, email });
+    const newEmployee = await Employee.createEmployee({ employee });
     res.status(201).json(newEmployee);
   } catch (error) {
     res.status(500).json({ message: 'Error al crear el empleado', error: error.message });
@@ -39,14 +39,12 @@ const createEmployee = async (req, res) => {
 };
 
 const getLoginEmpleado = async (req, res) => {
-  console.log(req.body);
   const { email, password } = req.body;
   if (!email || !password) {
     return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
   }
   //const hashed_pwd = bcrypt.hash(password, 10);
   try {
-    console.log('Llega al try');
     const empleado = await Employee.loginEmployees(email, password);
     if (!empleado) {
       return res.status(404).json({ message: `Empleado no encontrado` });

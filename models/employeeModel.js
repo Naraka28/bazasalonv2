@@ -23,10 +23,9 @@ const getEmployeeById = async (id) => {
 
 // Crear un nuevo usuario
 const createEmployee = async (employee) => {
-  const { name, email } = user;
   const result = await pool.query(
     'INSERT INTO employees (name, email) VALUES ($1, $2) RETURNING *',
-    [name, email]
+    [employee.name, employee.last_name,employee.access_email,employee.personal_email,employee.password,employee.phone_number,employee.role_id]
   );
   return result.rows[0];
 };
@@ -58,5 +57,6 @@ module.exports = {
   createEmployee,
   updateEmployee,
   deleteEmployee,
-  loginEmployees
+  loginEmployees,
+  getColumns
 };
