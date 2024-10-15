@@ -9,7 +9,7 @@ const morgan = require('morgan');
 const corsOptions = {
     origin: '*',
     methods: ['GET', 'POST'],
-    allowedHeaders: ['Content-Type'],
+    allowedHeaders: ['Content-Type','Authorization'],
   };
 
 require('dotenv').config();

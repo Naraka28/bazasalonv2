@@ -1,5 +1,7 @@
 // controllers/EmployeeController.js
 const Employee = require('../models/employeeModel');
+const jwt = require('jsonwebtoken')
+const secretKey = 'bieningasatumais'
 
 // Obtener todos los empleados
 const getEmployees = async (req, res) => {
@@ -37,15 +39,23 @@ const createEmployee = async (req, res) => {
 };
 
 const getLoginEmpleado = async (req, res) => {
-  console.log('Llega al getLoginEmpleado');
-  
+  console.log(req.body);
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Todos los campos son obligatorios.' });
+  }
   //const hashed_pwd = bcrypt.hash(password, 10);
   try {
-    const empleado = await Empleado.loginEmployees(email, password);
+    console.log('Llega al try');
+    const empleado = await Employee.loginEmployees(email, password);
     if (!empleado) {
       return res.status(404).json({ message: `Empleado no encontrado` });
     }
+    // if(empleado.success){
+    //   const token = jwt.sign({email},secretKey,{expiresIn: '1h'})
+    //   return res.status(200).json({token})
+
+    // }
     res.status(200).json(empleado);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener el empleado', error: error.message });

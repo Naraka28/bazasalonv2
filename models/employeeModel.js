@@ -10,7 +10,7 @@ const getAllEmployees = async () => {
 
 //LOGIN
 const loginEmployees= async(email, password) => {
-  const result= await pool.query('SELECT * FROM employees WHERE email=$1 AND password=$2',[email,password]);
+  const result= await pool.query('SELECT * FROM employees WHERE access_email=$1 AND password=$2',[email,password]);
   return result.rows.length>0?{success:true}:{success:false};
 };
 
