@@ -4,8 +4,10 @@ const app = express();
 const employeeRoutes = require('./routes/employeeRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const userRoutes = require('./routes/userRoutes');
+const productRoutes = require('./routes/productsRoutes');
 const cors = require('cors')
 const morgan = require('morgan');
+
 const corsOptions = {
     origin: '*',
     methods: ['GET', 'POST'],
@@ -24,6 +26,7 @@ app.use(morgan('dev'));
 app.use('/api/employees', employeeRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/products', productRoutes);
 
 // Ruta de inicio
 app.get('/', (req, res) => {

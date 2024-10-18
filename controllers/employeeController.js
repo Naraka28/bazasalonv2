@@ -21,11 +21,20 @@ const getEmployee = async (req, res) => {
     if (!Employee) {
       return res.status(404).json({ message: `empleado con ID ${id} no encontrado` });
     }
-    res.status(200).json(Employee);
+    res.status(200).json({employee:Employee});
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener el empleado', error: error.message });
   }
 };
+
+const getColumns = async (req, res) => {
+  try {
+    const columns = await Employee.getColumns();
+    res.status(200).json({columns:columns});
+  } catch (error) {
+    res.status(500).json({ message: 'Error al obtener las columnas', error: error.message });
+  }
+}
 
 // Crear un nuevo empleado
 const createEmployee = async (req, res) => {

@@ -4,7 +4,7 @@ const pool = require('../config/db');
 // Obtener todos los usuarios
 const getAllEmployees = async () => {
 
-  const result = await pool.query('SELECT * FROM employees ORDER BY employee_id ASC');
+  const result = await pool.query('SELECT * FROM employees LIMIT 10');
   return result.rows;
 };
 
