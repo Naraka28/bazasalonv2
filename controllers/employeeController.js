@@ -38,9 +38,9 @@ const getColumns = async (req, res) => {
 
 // Crear un nuevo empleado
 const createEmployee = async (req, res) => {
-  const {employee } = req.body;
+  const employee  = req.body;
   try {
-    const newEmployee = await Employee.createEmployee({ employee });
+    const newEmployee = await Employee.createEmployee(employee);
     res.status(201).json(newEmployee);
   } catch (error) {
     res.status(500).json({ message: 'Error al crear el empleado', error: error.message });

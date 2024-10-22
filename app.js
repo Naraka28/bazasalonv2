@@ -5,6 +5,7 @@ const employeeRoutes = require('./routes/employeeRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productsRoutes');
+const serviceRoutes = require('./routes/serviceRoutes');
 const cors = require('cors')
 const morgan = require('morgan');
 
@@ -27,6 +28,7 @@ app.use('/api/employees', employeeRoutes);
 app.use('/api/appointments', appointmentRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/services', serviceRoutes);
 
 // Ruta de inicio
 app.get('/', (req, res) => {
