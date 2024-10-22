@@ -19,10 +19,11 @@ const getProduct = async (req, res) => {
     }
 }
 
-const createProduct = async (req, res) => {
+const insertProduct = async (req, res) => {
     try {
-        const { product } = req.body;
-        const newProduct = await Product.createProduct({ product});
+        console.log('llega');
+        const product  = req.body;
+        const newProduct = await Product.createProduct( product);
         res.status(201).json({product:newProduct});
     } catch (error) {
         res.status(500).json({ message: 'Error al crear el producto', error: error.message });
@@ -31,5 +32,5 @@ const createProduct = async (req, res) => {
 
 module.exports = {
     getProducts,
-    createProduct,
-}
+    insertProduct,
+};
