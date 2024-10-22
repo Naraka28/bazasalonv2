@@ -23,8 +23,9 @@ const getEmployeeById = async (id) => {
 
 // Crear un nuevo usuario
 const createEmployee = async (employee) => {
+  console.log(employee.role_id)
   const result = await pool.query(
-    'INSERT INTO employees (name, email) VALUES ($1, $2) RETURNING *',
+    'INSERT INTO employees( name, last_name, access_email, personal_email, password, phone_number, role_id) VALUES ($1, $2, $3, $4, $5, $6, $7);',
     [employee.name, employee.last_name,employee.access_email,employee.personal_email,employee.password,employee.phone_number,employee.role_id]
   );
   return result.rows[0];
