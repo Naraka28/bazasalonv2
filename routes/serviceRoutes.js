@@ -4,7 +4,7 @@ const serviceController = require('../controllers/serviceController');
 
 // Rutas para CRUD de serviceos
 router.get('/', serviceController.getServices);
-router.post('/', serviceController.insertService);
+router.post('/create', serviceController.insertService);
 
 
 module.exports = router;

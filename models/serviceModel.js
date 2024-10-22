@@ -12,8 +12,8 @@ const getAllServices = async () => {
 // Crear un nuevo servicio
 const createService = async (service) => {
   const result = await pool.query(
-    'INSERT INTO services (name, catalogue, price, duration) VALUES ($1, $2, $3) RETURNING *',
-    [service.name, service.quantity, service.price, service.duration]
+"INSERT INTO services (name, catalogue_id, price, duration) VALUES ($1, $2, $3, ($4 || 'minutes')::INTERVAL) RETURNING *",
+    [service.name, service.catalogue_id, service.price, service.duration]
   );
   return result.rows[0];
 };
