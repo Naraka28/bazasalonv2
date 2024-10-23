@@ -6,6 +6,7 @@ const userController = require("../controllers/userController");
 // Rutas para CRUD de usuarios
 router.get("/", userController.getUsers);
 router.post("/name", userController.getUser);
+router.post("/phone", userController.getUserByPhoneController);
 // router.get('/:id', userController.getUser);
 router.post("/", userController.createUser);
 router.put("/:id", userController.updateUser);

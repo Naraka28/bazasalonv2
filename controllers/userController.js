@@ -30,6 +30,22 @@ const getUser = async (req, res) => {
       .json({ message: "Error al obtener el usuario", error: error.message });
   }
 };
+const getUserByPhoneController = async (req, res) => {
+  const phone = req.body;
+  try {
+    const user = await User.getUserByPhone(phone);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: `Usuario con telefono ${id} no encontrado` });
+    }
+    res.status(200).json({ users: user });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error al obtener el usuario", error: error.message });
+  }
+};
 
 // Crear un nuevo usuario
 const createUser = async (req, res) => {
@@ -111,4 +127,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  getUserByPhoneController,
 };

@@ -24,6 +24,15 @@ const getUserByName = async (user) => {
   return result.rows;
 };
 
+const getUserByPhone = async (user) => {
+  const phone = user.phone_number + "%";
+  const result = await pool.query(
+    "SELECT * FROM users WHERE phone_number LIKE $1",
+    [phone]
+  );
+  return result.rows;
+};
+
 // Crear un nuevo usuario
 const createUser = async (user) => {
   console.log(user);
@@ -68,4 +77,5 @@ module.exports = {
   updateUser,
   deleteUser,
   getUserByName,
+  getUserByPhone,
 };
