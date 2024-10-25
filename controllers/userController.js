@@ -21,7 +21,7 @@ const getUser = async (req, res) => {
     if (!user) {
       return res
         .status(404)
-        .json({ message: `Usuario con ID ${id} no encontrado` });
+        .json({ message: `Usuario con ID ${name} no encontrado` });
     }
     res.status(200).json({ users: user });
   } catch (error) {
@@ -37,7 +37,7 @@ const getUserByPhoneController = async (req, res) => {
     if (!user) {
       return res
         .status(404)
-        .json({ message: `Usuario con telefono ${id} no encontrado` });
+        .json({ message: `Usuario con telefono ${phone} no encontrado` });
     }
     res.status(200).json({ users: user });
   } catch (error) {
@@ -50,8 +50,7 @@ const getUserByPhoneController = async (req, res) => {
 // Crear un nuevo usuario
 const createUser = async (req, res) => {
   // Verificamos que los campos obligatorios estén presentes en la solicitud
-  const { name, last_name, access_email, password, role_id, phone_number } =
-    req.body;
+  const { name, last_name, access_email, password, phone_number } = req.body;
 
   if (!name || !last_name || !access_email || !password || !phone_number) {
     return res
