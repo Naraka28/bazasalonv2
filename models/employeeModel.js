@@ -1,32 +1,49 @@
 // models/userModel.js
-const pool = require('../config/db');
+const pool = require("../config/db");
 
 // Obtener todos los usuarios
 const getAllEmployees = async () => {
-
-  const result = await pool.query('SELECT * FROM employees LIMIT 10');
+  const result = await pool.query("SELECT * FROM employees LIMIT 10");
   return result.rows;
 };
 
 //LOGIN
-const loginEmployees= async(email, password) => {
-  const result= await pool.query('SELECT * FROM employees WHERE access_email=$1 AND password=$2',[email,password]);
-  return result.rows.length>0?{success:true}:{success:false};
+const loginEmployees = async (email, password) => {
+  const result = await pool.query(
+    "SELECT * FROM employees WHERE access_email=$1 AND password=$2",
+    [email, password]
+  );
+  if (result.rows.length > 0) {
+    res = { empleado: result.rows[0], success: true };
+    return res;
+  }
+  res = { success: false };
+  return res;
 };
-
 
 // Obtener un usuario por ID
 const getEmployeeById = async (id) => {
-  const result = await pool.query('SELECT * FROM employees WHERE employee_id = $1', [id]);
+  const result = await pool.query(
+    "SELECT * FROM employees WHERE employee_id = $1",
+    [id]
+  );
   return result.rows[0];
 };
 
 // Crear un nuevo usuario
 const createEmployee = async (employee) => {
-  console.log(employee.role_id)
+  console.log(employee.role_id);
   const result = await pool.query(
-    'INSERT INTO employees( name, last_name, access_email, personal_email, password, phone_number, role_id) VALUES ($1, $2, $3, $4, $5, $6, $7);',
-    [employee.name, employee.last_name,employee.access_email,employee.personal_email,employee.password,employee.phone_number,employee.role_id]
+    "INSERT INTO employees( name, last_name, access_email, personal_email, password, phone_number, role_id) VALUES ($1, $2, $3, $4, $5, $6, $7);",
+    [
+      employee.name,
+      employee.last_name,
+      employee.access_email,
+      employee.personal_email,
+      employee.password,
+      employee.phone_number,
+      employee.role_id,
+    ]
   );
   return result.rows[0];
 };
@@ -35,7 +52,7 @@ const createEmployee = async (employee) => {
 const updateEmployee = async (id, employee) => {
   const { name, email } = user;
   const result = await pool.query(
-    'UPDATE employees SET name = $1, email = $2 WHERE employee_id = $3 RETURNING *',
+    "UPDATE employees SET name = $1, email = $2 WHERE employee_id = $3 RETURNING *",
     [name, email, id]
   );
   return result.rows[0];
@@ -43,12 +60,17 @@ const updateEmployee = async (id, employee) => {
 
 // Eliminar un usuario
 const deleteEmployee = async (id) => {
-  const result = await pool.query('DELETE FROM employees WHERE employee_id = $1 RETURNING *', [id]);
+  const result = await pool.query(
+    "DELETE FROM employees WHERE employee_id = $1 RETURNING *",
+    [id]
+  );
   return result.rows[0];
 };
 
-const getColumns = async ()=> {
-  const result = await pool.query('SELECT column_name FROM information_schema.columns WHERE table_name = employees');
+const getColumns = async () => {
+  const result = await pool.query(
+    "SELECT column_name FROM information_schema.columns WHERE table_name = employees"
+  );
   return result.rows;
 };
 
@@ -59,5 +81,5 @@ module.exports = {
   updateEmployee,
   deleteEmployee,
   loginEmployees,
-  getColumns
+  getColumns,
 };
