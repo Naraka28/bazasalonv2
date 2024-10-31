@@ -64,22 +64,21 @@ const getLoginEmpleado = async (req, res) => {
       .status(400)
       .json({ message: "Todos los campos son obligatorios." });
   }
-  //const hashed_pwd = bcrypt.hash(password, 10);
   try {
     const data = await Employee.loginEmployees(email, password);
+    console.log(data);
     if (!data.success) {
       return res
         .status(401)
         .json({ message: `Usuario o contraseña incorrecta` });
     }
-    const token = jwt.sign(
-      { id: result.rows[0].employee_id },
-      process.env.SECRET,
-      {
-        expiresIn: 86400,
-      }
-    );
-    data["token"] = token;
+    const token = jwt.sign({ id: data.employee_id }, process.env.SECRET, {
+      algorithm: "HS256",
+      allowInsecureKeySizes: true,
+      expiresIn: 86400, // 24 hours
+    });
+    data.token = token;
+    console.log(data);
     return res.status(200).json(data);
   } catch (error) {
     res
