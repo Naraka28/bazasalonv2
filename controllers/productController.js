@@ -14,7 +14,7 @@ const getProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = parseInt(req.params.id);
     const product = await Product.getProductById(id);
     res.status(200).json({ product: product });
   } catch (error) {
@@ -34,6 +34,20 @@ const insertProduct = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error al crear el producto", error: error.message });
+  }
+};
+const deleteProduct = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+    const product = await Product.deleteProduct(id);
+    res
+      .status(200)
+      .json({ message: `Usuario eliminado con ID: ${id} correctamente` });
+  } catch {
+    res.status(500).json({
+      message: "Error al eliminar el producto",
+      error: error.message,
+    });
   }
 };
 
@@ -111,4 +125,6 @@ module.exports = {
   reporteTopEmpleado,
   reporteTopServicio,
   reporteListaPrecios,
+  getProduct,
+  deleteProduct,
 };

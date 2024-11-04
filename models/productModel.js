@@ -37,10 +37,9 @@ const updateProduct = async (id, Products) => {
   return result.rows[0];
 };
 
-// Eliminar un usuario
 const deleteProduct = async (id) => {
   const result = await pool.query(
-    "DELETE FROM products WHERE id = $1 RETURNING *",
+    "DELETE FROM products WHERE product_id = $1 RETURNING *",
     [id]
   );
   return result.rows[0];
