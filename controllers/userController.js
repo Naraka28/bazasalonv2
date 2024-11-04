@@ -30,6 +30,22 @@ const getUser = async (req, res) => {
       .json({ message: "Error al obtener el usuario", error: error.message });
   }
 };
+const userById = async (req, res) => {
+  const id = parseInt(req.params.id);
+  try {
+    const user = await User.getUserById(id);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: `Usuario con ID ${id} no encontrado` });
+    }
+    res.status(200).json({ users: user });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error al obtener el usuario", error: error.message });
+  }
+};
 const getUserByPhoneController = async (req, res) => {
   const phone = req.body;
   try {
@@ -127,4 +143,5 @@ module.exports = {
   updateUser,
   deleteUser,
   getUserByPhoneController,
+  userById,
 };

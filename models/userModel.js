@@ -53,10 +53,10 @@ const createUser = async (user) => {
 
 // Actualizar un usuario existente
 const updateUser = async (id, user) => {
-  const { name, email } = user;
+  const { name, last_name, email, password, phone } = user;
   const result = await pool.query(
-    "UPDATE users SET name = $1, email = $2 WHERE user_id = $3 RETURNING *",
-    [name, email, id]
+    "UPDATE users SET name = $1, last_name = $2,access_email = $3, password = $4, phone_number = $5 WHERE user_id = $6 RETURNING *",
+    [name, last_name, email, password, phone, id]
   );
   return result.rows[0];
 };
