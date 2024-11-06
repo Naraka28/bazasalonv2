@@ -90,16 +90,16 @@ const getLoginEmpleado = async (req, res) => {
 // Actualizar un empleado existente
 const updateEmployee = async (req, res) => {
   const id = parseInt(req.params.id);
-  const { name, email } = req.body;
+  const employee = req.body;
+  employee.employee_id = id;
   try {
-    const existingEmployee = await Employee.getEmployeeById(id);
-    if (!existingEmployee) {
+    const updatedEmployee = await Employee.updateEmployee(employee);
+    if (!updatedEmployee) {
       return res
         .status(404)
-        .json({ message: `empleado con ID ${id} no encontrado` });
+        .json({ message: `Empleado con ID ${id} no encontrado` });
     }
-    const updatedEmployee = await Employee.updateEmployee(id, { name, email });
-    res.status(200).json(updatedEmployee);
+    res.status(200).json({ message: "Empleado actualizado exitosamente" });
   } catch (error) {
     res.status(500).json({
       message: "Error al actualizar el empleado",

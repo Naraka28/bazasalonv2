@@ -28,11 +28,10 @@ const createProduct = async (product) => {
 };
 
 // Actualizar un usuario existente
-const updateProduct = async (id, Products) => {
-  const { name, email } = Products;
+const updateProduct = async (product) => {
   const result = await pool.query(
-    "UPDATE products SET name = $1, email = $2 WHERE id = $3 RETURNING *",
-    [name, email, id]
+    "UPDATE products SET name = $1, price = $2, quantity = $3 WHERE product_id = $4 RETURNING *",
+    [product.name, product.price, product.quantity, product.product_id]
   );
   return result.rows[0];
 };

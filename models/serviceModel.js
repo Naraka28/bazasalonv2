@@ -28,11 +28,16 @@ const createService = async (service) => {
 };
 
 // Actualizar un usuario existente
-const updateProduct = async (id, Products) => {
-  const { name, email } = Products;
+const updateService = async (product) => {
   const result = await pool.query(
-    "UPDATE services SET name = $1, email = $2 WHERE service_id = $3 RETURNING *",
-    [name, email, id]
+    "UPDATE services SET name = $1, catalogue_id = $2, price = $3, duration = $4 WHERE service_id = $5 RETURNING *",
+    [
+      product.name,
+      product.catalogue_id,
+      product.price,
+      product.duration_in_minutes,
+      product.product_id,
+    ]
   );
   return result.rows[0];
 };
@@ -50,4 +55,5 @@ module.exports = {
   createService,
   deleteService,
   getServiceById,
+  updateService,
 };

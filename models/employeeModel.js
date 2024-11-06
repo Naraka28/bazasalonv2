@@ -3,7 +3,9 @@ const pool = require("../config/db");
 
 // Obtener todos los usuarios
 const getAllEmployees = async () => {
-  const result = await pool.query("SELECT * FROM employees LIMIT 10");
+  const result = await pool.query(
+    "SELECT * FROM employees ORDER BY employee_id ASC"
+  );
   return result.rows;
 };
 
@@ -49,11 +51,18 @@ const createEmployee = async (employee) => {
 };
 
 // Actualizar un usuario existente
-const updateEmployee = async (id, employee) => {
-  const { name, email } = user;
+const updateEmployee = async (employee) => {
   const result = await pool.query(
-    "UPDATE employees SET name = $1, email = $2 WHERE employee_id = $3 RETURNING *",
-    [name, email, id]
+    "UPDATE employees SET name = $1, last_name = $2 ,access_email = $3, personal_email = $4, password = $5, phone_number = $6 WHERE employee_id = $7 RETURNING *",
+    [
+      employee.name,
+      employee.last_name,
+      employee.access_email,
+      employee.personal_email,
+      employee.password,
+      employee.phone_number,
+      employee.employee_id,
+    ]
   );
   return result.rows[0];
 };

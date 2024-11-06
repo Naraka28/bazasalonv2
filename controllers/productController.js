@@ -51,6 +51,28 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+const updateProduct = async (req, res) => {
+  try {
+    const product = req.body;
+    product.product_id = parseInt(req.params.id);
+    console.log(product);
+    const updatedProduct = await Product.updateProduct(product);
+    if (!updatedProduct) {
+      return res
+        .status(404)
+        .json({
+          message: `Producto con ID ${product.product_id} no encontrado`,
+        });
+    }
+    res.status(200).json({ message: "Producto actualizado correctamente" });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error al actualizar el producto",
+      error: error.message,
+    });
+  }
+};
+
 const reporteProductoMasVendido = async (req, res) => {
   try {
     const products = await Product.reportProductBestSeller();
@@ -127,4 +149,5 @@ module.exports = {
   reporteListaPrecios,
   getProduct,
   deleteProduct,
+  updateProduct,
 };

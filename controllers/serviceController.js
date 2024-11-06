@@ -36,6 +36,25 @@ const insertService = async (req, res) => {
   }
 };
 
+const updateService = async (req, res) => {
+  try {
+    const service = req.body;
+    service.service_id = parseInt(req.params.id);
+    const updatedService = await Service.updateService(service);
+    if (!updatedService) {
+      return res.status(404).json({
+        message: `Hubo un error al realizar la edición del servicio con ID ${service.service_id}`,
+      });
+    }
+    res.status(200).json({ message: "Servicio editado exitosamente" });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error al actualizar el servicio",
+      error: error.message,
+    });
+  }
+};
+
 const deleteService = async (req, res) => {
   try {
     const id = parseInt(req.params.id);

@@ -100,16 +100,16 @@ const createUser = async (req, res) => {
 // Actualizar un usuario existente
 const updateUser = async (req, res) => {
   const id = parseInt(req.params.id);
-  const { name, email } = req.body;
+  const user = req.body;
+  user.user_id = id;
   try {
-    const existingUser = await User.getUserById(id);
-    if (!existingUser) {
+    const updatedUser = await User.updateUser(user);
+    if (!updatedUser) {
       return res
         .status(404)
         .json({ message: `Usuario con ID ${id} no encontrado` });
     }
-    const updatedUser = await User.updateUser(id, { name, email });
-    res.status(200).json(updatedUser);
+    res.status(200).json({ message: "Usuario editado exitosamente" });
   } catch (error) {
     res.status(500).json({
       message: "Error al actualizar el usuario",
