@@ -19,13 +19,13 @@ const getEmployees = async (req, res) => {
 const getEmployee = async (req, res) => {
   const id = parseInt(req.params.id);
   try {
-    const Employee = await Employee.getEmployeeById(id);
-    if (!Employee) {
+    const empleado = await Employee.getEmployeeById(id);
+    if (!empleado) {
       return res
         .status(404)
         .json({ message: `empleado con ID ${id} no encontrado` });
     }
-    res.status(200).json({ employee: Employee });
+    res.status(200).json({ employee: empleado });
   } catch (error) {
     res
       .status(500)
