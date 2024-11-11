@@ -49,7 +49,7 @@ const createEmployee = async (req, res) => {
   const employee = req.body;
   try {
     const newEmployee = await Employee.createEmployee(employee);
-    res.status(201).json(newEmployee);
+    res.status(201).json({ employee: newEmployee });
   } catch (error) {
     res
       .status(500)

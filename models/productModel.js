@@ -27,7 +27,6 @@ const createProduct = async (product) => {
   return result.rows[0];
 };
 
-// Actualizar un usuario existente
 const updateProduct = async (product) => {
   const result = await pool.query(
     "UPDATE products SET name = $1, price = $2, quantity = $3 WHERE product_id = $4 RETURNING *",

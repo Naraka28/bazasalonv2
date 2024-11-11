@@ -87,7 +87,7 @@ const createUser = async (req, res) => {
     });
 
     // Si todo va bien, respondemos con el nuevo usuario
-    res.status(201).json(newUser);
+    res.status(201).json({ user: newUser });
   } catch (error) {
     // Si ocurre un error, lo capturamos y enviamos una respuesta con código 500
     console.error("Error al crear el usuario:", error);

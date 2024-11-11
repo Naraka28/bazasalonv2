@@ -77,4 +77,5 @@ module.exports = {
   insertService,
   deleteService,
   getService,
+  updateService,
 };
