@@ -4,7 +4,10 @@ const pool = require("../config/db");
 // Obtener todos los usuarios
 const getAllServices = async () => {
   const result = await pool.query(
-    "SELECT service_id, name, catalogue_id, price, CAST(EXTRACT(epoch FROM duration) / 60 AS INTEGER) AS duration_in_minutes FROM services;"
+    `SELECT service_id, name, c.catalogue, price, CAST(EXTRACT(epoch FROM duration) / 60 AS INTEGER) AS duration_in_minutes 
+  FROM services
+  INNER JOIN catalogues as c ON services.catalogue_id = c.catalogue_id
+  ORDER BY service_id ASC;`
   );
   return result.rows;
 };
@@ -30,7 +33,7 @@ const createService = async (service) => {
 // Actualizar un usuario existente
 const updateService = async (service) => {
   const result = await pool.query(
-    "UPDATE services SET name = $1, price = $2, duration = $3 WHERE service_id = $4 RETURNING *",
+    "UPDATE services SET name = $1, price = $2, duration = ($3 || 'minutes')::INTERVAL WHERE service_id = $4 RETURNING *",
     [service.name, service.price, service.duration, service.service_id]
   );
   return result.rows[0];
