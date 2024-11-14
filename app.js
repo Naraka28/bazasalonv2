@@ -2,6 +2,7 @@
 const express = require("express");
 const app = express();
 const employeeRoutes = require("./routes/employeeRoutes");
+const inventoryRoutes = require("./routes/inventoryRoutes");
 const appointmentRoutes = require("./routes/appointmentRoutes");
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productsRoutes");
@@ -28,6 +29,7 @@ app.use("/api/appointments", appointmentRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/services", serviceRoutes);
+app.use("/api/inventory", inventoryRoutes);
 
 // Ruta de inicio
 app.get("/", (req, res) => {
