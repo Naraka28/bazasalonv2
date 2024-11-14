@@ -4,7 +4,7 @@ const Material = require("../models/inventoryModel");
 // Obtener todos los materiales
 const getInventory = async (req, res) => {
   try {
-    const inventory = await Material.getInventory();
+    const inventory = await Material.getAllMaterials();
     res.status(200).json({ inventory: inventory });
   } catch (error) {
     res

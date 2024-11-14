@@ -2,7 +2,7 @@
 const pool = require("../config/db");
 
 // Obtener todos los usuarios
-const getInventory = async () => {
+const getAllMaterials = async () => {
   const result = await pool.query(
     "SELECT * FROM materials ORDER BY material_id ASC LIMIT 10 "
   );
@@ -67,7 +67,7 @@ const deleteMaterial = async (id) => {
 };
 
 module.exports = {
-  getInventory,
+  getAllMaterials,
   getMaterialById,
   createMaterial,
   updateMaterial,
