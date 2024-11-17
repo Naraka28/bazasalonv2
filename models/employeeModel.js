@@ -3,8 +3,16 @@ const pool = require("../config/db");
 
 // Obtener todos los usuarios
 const getAllEmployees = async () => {
+  const total_results = await pool.query(`SELECT COUNT(*) as resultados FROM
+  (SELECT employee_id, name, last_name, access_email, personal_email, phone_number, employees.role_id, r.role 
+  FROM employees
+  INNER JOIN roles as r on employees.role_id = r.role_id
+  ORDER BY employee_id ASC) as total;`);
+
   const result = await pool.query(
-    "SELECT * FROM employees ORDER BY employee_id ASC"
+    `SELECT employee_id, name, last_name, access_email, personal_email, phone_number, employees.role_id, r.role FROM employees
+    INNER JOIN roles as r on employees.role_id = r.role_id
+    ORDER BY employee_id ASC;`
   );
   return result.rows;
 };

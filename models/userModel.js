@@ -29,7 +29,7 @@ const getUserByName = async (user) => {
 const getUserByPhone = async (user) => {
   const phone = user.phone_number + "%";
   const result = await pool.query(
-    "SELECT * FROM users WHERE phone_number LIKE $1",
+    "SELECT user_id, name, last_name, phone_number FROM users WHERE phone_number LIKE $1",
     [phone]
   );
   return result.rows;
