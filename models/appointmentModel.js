@@ -107,4 +107,5 @@ module.exports = {
   updateAppointment,
   deleteAppointment,
   getAppointmentsForCalendar,
+  getAllAppointmentByName,
 };
