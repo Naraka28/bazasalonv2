@@ -12,6 +12,21 @@ const getAllAppointments = async () => {
   INNER JOIN services as s ON ap.service_id = s.service_id ORDER BY ap.appointment_id ASC;`);
   return result.rows;
 };
+const getAllAppointmentByName = async (appointment) => {
+  const name = appointment.name + "%";
+  const result = await pool.query(
+    `SELECT ap.appointment_id,TO_CHAR(ap.date, 'DD/MM/YYYY') as date, u.name, u.last_name, em.name as em_name, em.last_name as em_last_name, s.name as servicio, TO_CHAR(ap.hour,'HH24:MI') as hour,
+    s.price as total_price, ap.employee_id, ap.service_id, ap.user_id
+  FROM appointments as ap
+  INNER JOIN users as u ON ap.user_id = u.user_id
+  INNER JOIN employees as em ON ap.employee_id = em.employee_id
+  INNER JOIN services as s ON ap.service_id = s.service_id
+  WHERE u.name ILIKE $1 OR u.last_name ILIKE $1
+  ORDER BY ap.appointment_id ASC;`,
+    [name]
+  );
+  return result.rows;
+};
 
 const getAppointmentsForCalendar = async () => {
   const result = await pool.query(`SELECT ap.appointment_id,

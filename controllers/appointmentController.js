@@ -12,7 +12,6 @@ const getAppointments = async (req, res) => {
       .json({ message: "Error al obtener los Citas", error: error.message });
   }
 };
-
 const getAppointmentsForCalendar = async (req, res) => {
   try {
     const Appointments = await Appointment.getAppointmentsForCalendar();
@@ -21,6 +20,22 @@ const getAppointmentsForCalendar = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error al obtener los Citas", error: error.message });
+  }
+};
+const searchAppointment = async (req, res) => {
+  const appointment = req.body;
+  try {
+    const cita = await Appointment.getAllAppointmentByName(appointment);
+    if (!cita) {
+      return res.status(404).json({
+        message: `Cita con ese usario ${appointment.name} no encontrado`,
+      });
+    }
+    res.status(200).json({ appointments: cita });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error al obtener el Cita", error: error.message });
   }
 };
 
@@ -104,5 +119,6 @@ module.exports = {
   createAppointment,
   updateAppointment,
   deleteAppointment,
+  searchAppointment,
   getAppointmentsForCalendar,
 };

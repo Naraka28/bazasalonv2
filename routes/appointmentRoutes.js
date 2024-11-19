@@ -6,6 +6,7 @@ router.get("/", appointmentController.getAppointments);
 router.get("/calendar", appointmentController.getAppointmentsForCalendar);
 router.get("/:id", appointmentController.getAppointment);
 router.post("/create", appointmentController.createAppointment);
+router.post("/search", appointmentController.searchAppointment);
 router.put("/:id", appointmentController.updateAppointment);
 router.delete("/:id", appointmentController.deleteAppointment);
 
