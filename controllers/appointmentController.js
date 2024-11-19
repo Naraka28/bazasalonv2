@@ -13,6 +13,17 @@ const getAppointments = async (req, res) => {
   }
 };
 
+const getAppointmentsForCalendar = async (req, res) => {
+  try {
+    const Appointments = await Appointment.getAppointmentsForCalendar();
+    res.status(200).json({ appointments: Appointments });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error al obtener los Citas", error: error.message });
+  }
+};
+
 // Obtener un Cita por ID
 const getAppointment = async (req, res) => {
   const id = parseInt(req.params.id);
@@ -93,4 +104,5 @@ module.exports = {
   createAppointment,
   updateAppointment,
   deleteAppointment,
+  getAppointmentsForCalendar,
 };

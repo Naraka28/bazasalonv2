@@ -7,6 +7,8 @@ const getAllServices = async () => {
     `SELECT service_id, name, c.catalogue, price, CAST(EXTRACT(epoch FROM duration) / 60 AS INTEGER) AS duration_in_minutes 
   FROM services
   INNER JOIN catalogues as c ON services.catalogue_id = c.catalogue_id
+  
+
   ORDER BY service_id ASC;`
   );
   return result.rows;
