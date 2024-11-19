@@ -11,6 +11,18 @@ const getServices = async (req, res) => {
     });
   }
 };
+const getServiceByName = async (req, res) => {
+  const service = req.body;
+  try {
+    const services = await Service.getServiceByName(service);
+    res.status(200).json({ services: services });
+  } catch (error) {
+    res.status(500).json({
+      message: "Error al obtener los serviceos",
+      error: error.message,
+    });
+  }
+};
 
 const getService = async (req, res) => {
   try {
@@ -78,4 +90,5 @@ module.exports = {
   deleteService,
   getService,
   updateService,
+  getServiceByName,
 };

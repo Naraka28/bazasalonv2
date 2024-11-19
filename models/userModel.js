@@ -29,8 +29,17 @@ const getUserByName = async (user) => {
 const getUserByPhone = async (user) => {
   const phone = user.phone_number + "%";
   const result = await pool.query(
-    "SELECT user_id, name, last_name, phone_number FROM users WHERE phone_number LIKE $1",
+    "SELECT user_id, name, last_name, phone_number FROM users WHERE phone_number LIKE $1 OR WHERE name ILIKE $1",
     [phone]
+  );
+  return result.rows;
+};
+const getUserByNameOrLast = async (user) => {
+  const name = user.name + "%";
+
+  const result = await pool.query(
+    "SELECT user_id, name, last_name, phone_number FROM users WHERE name ILIKE $1 OR last_name ILIKE $1",
+    [name]
   );
   return result.rows;
 };
@@ -86,4 +95,5 @@ module.exports = {
   deleteUser,
   getUserByName,
   getUserByPhone,
+  getUserByNameOrLast,
 };
