@@ -7,7 +7,7 @@ const userController = require("../controllers/userController");
 router.get("/", userController.getUsers);
 router.get("/backup", userController.backup);
 router.get("/:id", userController.userById);
-router.post("/name", userController.getUser);
+router.post("/name", userController.searchUserFullName);
 router.post("/phone", userController.getUserByPhoneController);
 router.post("/", userController.createUser);
 router.put("/:id", userController.updateUser);

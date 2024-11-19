@@ -19,19 +19,33 @@ const getUsers = async (req, res) => {
 
 // Obtener un usuario por ID
 const getUser = async (req, res) => {
-  const name = req.body;
+  const usuario = req.body;
   try {
-    const user = await User.getUserByName(name);
+    const user = await User.getUserByName(usuario);
     if (!user) {
       return res
         .status(404)
-        .json({ message: `Usuario con ID ${name} no encontrado` });
+        .json({ message: `Usuario con nombre ${usuario} no encontrado` });
     }
     res.status(200).json({ users: user });
   } catch (error) {
     res
       .status(500)
       .json({ message: "Error al obtener el usuario", error: error.message });
+  }
+};
+const searchUserFullName = async (req, res) => {
+  const usuario = req.body;
+  try {
+    const user = await User.getUserByNameOrLast(usuario);
+    if (!user) {
+      return res.status(404).json({
+        message: `Usuarios con nombre o apellido ${usuario.name} no encontrado`,
+      });
+    }
+    res.status(200).json({ users: user });
+  } catch (error) {
+    res.status(500).json({ message: "Error al buscar", error: error.message });
   }
 };
 const userById = async (req, res) => {
@@ -169,4 +183,5 @@ module.exports = {
   getUserByPhoneController,
   userById,
   backup,
+  searchUserFullName,
 };
