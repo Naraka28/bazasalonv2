@@ -18,6 +18,15 @@ const getProductById = async (id) => {
   return result.rows[0];
 };
 
+const getProductByName = async (product) => {
+  const name = product.name + "%";
+  const result = await pool.query(
+    "SELECT * FROM products WHERE name ILIKE $1 ORDER BY name ASC",
+    [name]
+  );
+  return result.rows;
+};
+
 // Crear un nuevo usuario
 const createProduct = async (product) => {
   const result = await pool.query(
@@ -118,4 +127,5 @@ module.exports = {
   reportTopService,
   reportTotalInventory,
   reportPriceList,
+  getProductByName,
 };

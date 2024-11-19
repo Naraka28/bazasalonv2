@@ -30,6 +30,17 @@ const loginEmployees = async (email, password) => {
   res = { success: false };
   return res;
 };
+const getEmployeeByName = async (employee) => {
+  const name = employee.name + "%";
+  const result = await pool.query(
+    `SELECT employee_id, name, last_name, access_email, personal_email, phone_number, employees.role_id, r.role FROM employees
+  INNER JOIN roles as r on employees.role_id = r.role_id
+  WHERE name ILIKE $1 OR last_name ILIKE $1
+  ORDER BY employee_id ASC;`,
+    [name]
+  );
+  return result.rows;
+};
 
 // Obtener un usuario por ID
 const getEmployeeById = async (id) => {
@@ -99,4 +110,5 @@ module.exports = {
   deleteEmployee,
   loginEmployees,
   getColumns,
+  getEmployeeByName,
 };

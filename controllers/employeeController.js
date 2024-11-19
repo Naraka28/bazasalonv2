@@ -32,6 +32,24 @@ const getEmployee = async (req, res) => {
       .json({ message: "Error al obtener el empleado", error: error.message });
   }
 };
+const getEmployeeByName = async (req, res) => {
+  const employee = req.body;
+  try {
+    const empleado = await Employee.getEmployeeByName(employee);
+    if (!empleado) {
+      return res
+        .status(404)
+        .json({
+          message: `empleado con nombre ${employee.name} no encontrado`,
+        });
+    }
+    res.status(200).json({ employees: empleado });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error al obtener el empleado", error: error.message });
+  }
+};
 
 const getColumns = async (req, res) => {
   try {
@@ -133,4 +151,5 @@ module.exports = {
   updateEmployee,
   deleteEmployee,
   getLoginEmpleado,
+  getEmployeeByName,
 };

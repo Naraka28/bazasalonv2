@@ -24,6 +24,18 @@ const getProduct = async (req, res) => {
   }
 };
 
+const getProductByName = async (req, res) => {
+  try {
+    const product = req.body;
+    const products = await Product.getProductByName(product);
+    res.status(200).json({ products: products });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error al obtener el producto", error: error.message });
+  }
+};
+
 const insertProduct = async (req, res) => {
   try {
     console.log("llega");
@@ -58,11 +70,9 @@ const updateProduct = async (req, res) => {
     console.log(product);
     const updatedProduct = await Product.updateProduct(product);
     if (!updatedProduct) {
-      return res
-        .status(404)
-        .json({
-          message: `Producto con ID ${product.product_id} no encontrado`,
-        });
+      return res.status(404).json({
+        message: `Producto con ID ${product.product_id} no encontrado`,
+      });
     }
     res.status(200).json({ message: "Producto actualizado correctamente" });
   } catch (error) {
@@ -150,4 +160,5 @@ module.exports = {
   getProduct,
   deleteProduct,
   updateProduct,
+  getProductByName,
 };

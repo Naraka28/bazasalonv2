@@ -1,5 +1,9 @@
 // controllers/userController.js
+const { format } = require("morgan");
 const User = require("../models/userModel");
+const fs = require("fs");
+const { exec } = require("child_process");
+const path = require("path");
 
 // Obtener todos los usuarios
 const getUsers = async (req, res) => {
@@ -135,6 +139,26 @@ const deleteUser = async (req, res) => {
       .json({ message: "Error al eliminar el usuario", error: error.message });
   }
 };
+const backup = async (req, res) => {
+  const backupDir = path.join("/Users/danielestrada/bazasalonv2/", "backups");
+  if (!fs.existsSync(backupDir)) {
+    fs.mkdirSync(backupDir); // Create the folder if it doesn't exist
+  }
+  const backupFile = path.join(backupDir, `backup_${Date.now()}.sql`); // Unique file name
+  const command = `pg_dump -U postgres -h localhost MBSalon> "${backupFile}"`;
+
+  exec(command, (error) => {
+    if (error) {
+      console.error("Error generating backup:", error);
+      return res.status(500).send("Backup failed");
+    }
+
+    // Send the file to the client
+    res.download(backupFile, `MBSalon_backup.sql`, (err) => {
+      if (err) console.error("Error sending backup:", err);
+    });
+  });
+};
 
 module.exports = {
   getUsers,
@@ -144,4 +168,5 @@ module.exports = {
   deleteUser,
   getUserByPhoneController,
   userById,
+  backup,
 };

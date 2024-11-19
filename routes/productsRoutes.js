@@ -4,6 +4,7 @@ const productController = require("../controllers/productController");
 
 // Rutas para CRUD de productos
 router.get("/", productController.getProducts);
+router.post("/search", productController.getProductByName);
 router.get("/:id", productController.getProduct);
 router.put("/:id", productController.updateProduct);
 router.delete("/:id", productController.deleteProduct);
