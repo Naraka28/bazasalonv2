@@ -93,7 +93,8 @@ const createAppointment = async (appointment) => {
 // Actualizar un usuario existente
 const updateAppointment = async (appointment) => {
   const conflictCheck = await pool.query(
-    "SELECT * FROM appointments WHERE date = $1 AND hour = $2 AND (employee_id = $3 OR user_id = $4)",
+    `SELECT * FROM appointments
+    WHERE date = $1 AND hour = $2 AND (employee_id = $3 OR user_id = $4)`,
     [
       appointment.date,
       appointment.hour,
