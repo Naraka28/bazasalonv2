@@ -18,7 +18,7 @@ const getMaterialById = async (id) => {
   return result.rows[0];
 };
 const getMaterialByName = async (material) => {
-  const name = material.name + "%";
+  const name ="%"+ material.name + "%";
   console.log(material.name);
   const result = await pool.query(
     "SELECT * FROM materials WHERE name ILIKE $1",

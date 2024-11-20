@@ -17,7 +17,7 @@ const getUserById = async (id) => {
   return result.rows[0];
 };
 const getUserByName = async (user) => {
-  const name = user.name + "%";
+  const name ="%"+ user.name + "%";
   console.log(user.name);
   const result = await pool.query("SELECT * FROM users WHERE name ILIKE $1", [
     name,

@@ -21,7 +21,7 @@ const getServiceById = async (id) => {
   return result.rows[0];
 };
 const getServiceByName = async (service) => {
-  const name = service.name + "%";
+  const name = "%"+service.name + "%";
   const result = await pool.query(
     `SELECT service_id, name, c.catalogue, price, CAST(EXTRACT(epoch FROM duration) / 60 AS INTEGER) AS duration_in_minutes 
     FROM services

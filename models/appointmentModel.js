@@ -11,11 +11,11 @@ const getAllAppointments = async () => {
   INNER JOIN employees as em ON ap.employee_id = em.employee_id
   INNER JOIN services as s ON ap.service_id = s.service_id
   WHERE ap.date >= CURRENT_DATE
-  ORDER BY ap.appointment_id ASC;`);
+  ORDER BY ap.date DESC;`);
   return result.rows;
 };
 const getAllAppointmentByName = async (appointment) => {
-  const name = appointment.name + "%";
+  const name = "%"+appointment.name + "%";
   const result = await pool.query(
     `SELECT ap.appointment_id,TO_CHAR(ap.date, 'DD/MM/YYYY') as date, u.name, u.last_name, em.name as em_name, em.last_name as em_last_name, s.name as servicio, TO_CHAR(ap.hour,'HH24:MI') as hour,
     s.price as total_price, ap.employee_id, ap.service_id, ap.user_id
@@ -24,7 +24,7 @@ const getAllAppointmentByName = async (appointment) => {
   INNER JOIN employees as em ON ap.employee_id = em.employee_id
   INNER JOIN services as s ON ap.service_id = s.service_id
   WHERE u.name ILIKE $1 OR u.last_name ILIKE $1
-  ORDER BY ap.appointment_id ASC;`,
+  ORDER BY ap.date DESC;`,
     [name]
   );
   return result.rows;

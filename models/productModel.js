@@ -19,7 +19,7 @@ const getProductById = async (id) => {
 };
 
 const getProductByName = async (product) => {
-  const name = product.name + "%";
+  const name = "%"+product.name + "%";
   const result = await pool.query(
     "SELECT * FROM products WHERE name ILIKE $1 ORDER BY name ASC",
     [name]

@@ -31,7 +31,7 @@ const loginEmployees = async (email, password) => {
   return res;
 };
 const getEmployeeByName = async (employee) => {
-  const name = employee.name + "%";
+  const name ="%"+ employee.name + "%";
   const result = await pool.query(
     `SELECT employee_id, name, last_name, access_email, personal_email, phone_number, employees.role_id, r.role FROM employees
   INNER JOIN roles as r on employees.role_id = r.role_id
