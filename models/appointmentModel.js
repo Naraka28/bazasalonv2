@@ -9,7 +9,9 @@ const getAllAppointments = async () => {
   FROM appointments as ap
   INNER JOIN users as u ON ap.user_id = u.user_id
   INNER JOIN employees as em ON ap.employee_id = em.employee_id
-  INNER JOIN services as s ON ap.service_id = s.service_id ORDER BY ap.appointment_id ASC;`);
+  INNER JOIN services as s ON ap.service_id = s.service_id
+  WHERE ap.date >= CURRENT_DATE
+  ORDER BY ap.appointment_id ASC;`);
   return result.rows;
 };
 const getAllAppointmentByName = async (appointment) => {
@@ -63,6 +65,18 @@ const getAppointmentById = async (id) => {
 
 // Crear un nuevo usuario
 const createAppointment = async (appointment) => {
+  const conflictCheck = await pool.query(
+    "SELECT * FROM appointments WHERE date = $1 AND hour = $2 AND (employee_id = $3 OR user_id = $4)",
+    [
+      appointment.date,
+      appointment.hour,
+      appointment.employee_id,
+      appointment.user_id,
+    ]
+  );
+  if (conflictCheck.rows.length > 0) {
+    return;
+  }
   const result = await pool.query(
     "INSERT INTO appointments (date,hour,user_id,service_id,employee_id) VALUES ($1, $2, $3, $4, $5) RETURNING *",
     [
@@ -78,6 +92,18 @@ const createAppointment = async (appointment) => {
 
 // Actualizar un usuario existente
 const updateAppointment = async (appointment) => {
+  const conflictCheck = await pool.query(
+    "SELECT * FROM appointments WHERE date = $1 AND hour = $2 AND (employee_id = $3 OR user_id = $4)",
+    [
+      appointment.date,
+      appointment.hour,
+      appointment.employee_id,
+      appointment.user_id,
+    ]
+  );
+  if (conflictCheck.rows.length > 0) {
+    return;
+  }
   const result = await pool.query(
     "UPDATE appointments SET service_id = $1, employee_id = $2, date = $3, hour = $4 WHERE appointment_id = $5 RETURNING *",
     [

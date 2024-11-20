@@ -63,7 +63,10 @@ const createAppointment = async (req, res) => {
   try {
     const newAppointment = await Appointment.createAppointment(appointment);
     if (!newAppointment) {
-      return res.status(400).json({ message: "Error al crear el Cita" });
+      return res.status(400).json({
+        message:
+          "El empleado o usuario ya tiene una cita programada en ese horario",
+      });
     }
     res.status(201).json({ message: "Cita creada exitosamente" });
   } catch (error) {
@@ -83,9 +86,10 @@ const updateAppointment = async (req, res) => {
       appointment
     );
     if (!existingAppointment) {
-      return res
-        .status(404)
-        .json({ message: `Cita con ID ${id} no encontrado` });
+      return res.status(400).json({
+        message:
+          "El empleado o usuario ya tiene una cita programada en ese horario",
+      });
     }
     res.status(200).json({ message: "Cita actualizado exitosamente" });
   } catch (error) {
